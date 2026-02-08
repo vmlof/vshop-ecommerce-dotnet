@@ -1,0 +1,44 @@
+﻿@model IEnumerable<VShop.Web.Models.ProductViewModel>
+
+<link rel="stylesheet" href="/css/product.css" asp-append-version="true"/>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h3 class="fw-bold">Produtos</h3>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            @foreach (var product in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 product-card shadow-sm border-0">
+                        <a href="/Home/ProductDetails/@product.Id" class="text-decoration-none text-dark">
+                            
+                            <div class="img-container">
+                                <img src="@product.ImageUrl" class="card-img-top product-image" alt="@product.Name">
+                            </div>
+
+                            <div class="card-body d-flex flex-column text-center">
+                                <h6 class="card-title fw-bold text-uppercase text-truncate mb-3" title="@product.Name">
+                                    @product.Name
+                                </h6>
+                                
+                                <div class="mt-auto">
+                                    <p class="text-primary fs-5 fw-bold mb-2">
+                                        @product.Price.ToString("C")
+                                    </p>
+                                    <button class="btn btn-outline-primary btn-sm w-100 rounded-pill">
+                                        Ver Detalhes
+                                    </button>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

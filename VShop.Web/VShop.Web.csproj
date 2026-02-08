@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.3.9" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.1" />
+      <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.1" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\191082.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\borracha_branca1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\borracha_cinza1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\caderno_anotacoes1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\caderno_espiral_100.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\caneta_bic4.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\caneta_bic_celeb1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\caneta_corretiva1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\caneta_escreve_apaga1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\caneta_hidrografica1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\colabranca1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\corretivo_emfita1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\fichario_univ1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\lapis_coloridos1.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\papel_sulfite.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\images\escolar\papel_sulfite2.jpg" />
+    </ItemGroup>
+
+</Project>

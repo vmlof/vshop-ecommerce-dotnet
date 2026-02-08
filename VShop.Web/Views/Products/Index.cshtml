@@ -1,0 +1,376 @@
+﻿@model IEnumerable<VShop.Web.Models.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Produtos";
+}
+
+<style>
+    
+    :root {
+        --color-bg: #fafbfc;
+        --color-surface: #ffffff;
+        --color-border: #e8ecf0;
+        --color-border-light: #f1f4f8;
+        --color-text-primary: #1a2332;
+        --color-text-secondary: #5c6a7f;
+        --color-text-muted: #8b95a5;
+        --color-accent: #0066ff;
+        --color-accent-soft: #e8f2ff;
+        --color-success: #00a67d;
+        --color-danger: #dc3545;
+        --color-danger-soft: #ffeef0;
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.08);
+        --radius: 12px;
+        --radius-sm: 8px;
+        --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .products-page {
+        background: var(--color-bg);
+        min-height: 100vh;
+        padding: 2.5rem 0;
+    }
+
+    /* Header Section */
+    .page-header {
+        margin-bottom: 2rem;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-text-primary);
+        margin-bottom: 0.25rem;
+        letter-spacing: -0.02em;
+    }
+
+    .page-subtitle {
+        font-size: 0.875rem;
+        color: var(--color-text-muted);
+        margin: 0;
+    }
+
+    .btn-create {
+        background: var(--color-text-primary);
+        color: #fff;
+        border: none;
+        padding: 0.625rem 1.25rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        border-radius: 100px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: var(--transition);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .btn-create:hover {
+        background: #2a3a50;
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+    }
+
+    /* Table Card */
+    .table-card {
+        background: var(--color-surface);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--color-border);
+        overflow: hidden;
+    }
+
+    /* Table Styles */
+    .products-table {
+        margin-bottom: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .products-table thead {
+        background: var(--color-bg);
+    }
+
+    .products-table th {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-text-muted);
+        padding: 1rem 1.25rem;
+        border: none;
+        border-bottom: 1px solid var(--color-border-light);
+        white-space: nowrap;
+    }
+
+    .products-table th:first-child {
+        padding-left: 1.5rem;
+    }
+
+    .products-table th:last-child {
+        padding-right: 1.5rem;
+        text-align: right;
+    }
+
+    .products-table tbody tr {
+        transition: var(--transition);
+    }
+
+    .products-table tbody tr:hover {
+        background: var(--color-bg);
+    }
+
+    .products-table td {
+        padding: 1rem 1.25rem;
+        border: none;
+        border-bottom: 1px solid var(--color-border-light);
+        vertical-align: middle;
+    }
+
+    .products-table td:first-child {
+        padding-left: 1.5rem;
+    }
+
+    .products-table td:last-child {
+        padding-right: 1.5rem;
+    }
+
+    .products-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* Product Cell */
+    .product-cell {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .product-img {
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
+        border-radius: var(--radius-sm);
+        background: var(--color-bg);
+        border: 1px solid var(--color-border-light);
+        flex-shrink: 0;
+    }
+
+    .product-name {
+        font-size: 0.9375rem;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0;
+    }
+
+    /* Category Badge */
+    .category-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--color-text-secondary);
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        border-radius: 100px;
+    }
+
+    /* Description */
+    .description-text {
+        font-size: 0.875rem;
+        color: var(--color-text-secondary);
+        max-width: 220px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Price */
+    .price-text {
+        font-size: 0.9375rem;
+        font-weight: 700;
+        color: var(--color-success);
+    }
+
+    /* Action Buttons */
+    .actions-cell {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.5rem;
+    }
+
+    .action-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid transparent;
+        transition: var(--transition);
+        font-size: 0.8125rem;
+    }
+
+    .action-btn-edit {
+        color: var(--color-accent);
+        background: var(--color-accent-soft);
+        border-color: transparent;
+    }
+
+    .action-btn-edit:hover {
+        background: var(--color-accent);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+    }
+
+    .action-btn-delete {
+        color: var(--color-danger);
+        background: var(--color-danger-soft);
+        border-color: transparent;
+    }
+
+    .action-btn-delete:hover {
+        background: var(--color-danger);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+
+    /* Empty State */
+    .empty-state {
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+
+    .empty-state-icon {
+        font-size: 3rem;
+        color: var(--color-border);
+        margin-bottom: 1rem;
+    }
+
+    .empty-state-text {
+        font-size: 0.9375rem;
+        color: var(--color-text-muted);
+        margin: 0;
+    }
+
+    /* Stats Badge (opcional) */
+    .stats-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.25rem 0.625rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--color-text-secondary);
+        background: var(--color-bg);
+        border-radius: 100px;
+        margin-left: 0.75rem;
+    }
+</style>
+
+<div class="products-page">
+    <div class="container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center page-header">
+            <div>
+                <h1 class="page-title">
+                    Products
+                    @if (Model != null && Model.Any())
+                    {
+                        <span class="stats-badge">
+                            <i class="fas fa-cube"></i>
+                            @Model.Count() itens
+                        </span>
+                    }
+                </h1>
+                <p class="page-subtitle">Manage your product catalog</p>
+            </div>
+            <a asp-action="CreateProduct" class="btn-create">
+                <i class="fas fa-plus"></i>
+                New Product
+            </a>
+        </div>
+
+        <!-- Table Card -->
+        <div class="table-card">
+            <div class="table-responsive">
+                <table class="table products-table">
+                    <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="product-cell">
+                                        <img src="@item.ImageUrl"
+                                             class="product-img"
+                                             alt="@item.Name"
+                                             onerror="this.onerror=null;this.src='/images/noimage1.png';"/>
+                                        <h6 class="product-name">@Html.DisplayFor(modelItem => item.Name)</h6>
+                                    </div>
+                                </td>
+                                <td>
+                                        <span class="category-badge">
+                                            @Html.DisplayFor(modelItem => item.CategoryName)
+                                        </span>
+                                </td>
+                                <td>
+                                        <span class="description-text" title="@item.Description">
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </span>
+                                </td>
+                                <td>
+                                        <span class="price-text">
+                                            @string.Format("{0:C}", item.Price)
+                                        </span>
+                                </td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <a asp-action="UpdateProduct" asp-route-id="@item.Id"
+                                           class="action-btn action-btn-edit"
+                                           title="Editar produto">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                        <a asp-action="DeleteProduct" asp-route-id="@item.Id"
+                                           class="action-btn action-btn-delete"
+                                           title="Excluir produto">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    <i class="fas fa-box-open empty-state-icon"></i>
+                                    <p class="empty-state-text">Nenhum produto cadastrado ainda</p>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

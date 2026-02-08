@@ -1,0 +1,102 @@
+﻿@model VShop.Web.Models.ProductViewModel
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            
+            <form asp-action="UpdateProduct">
+                <input type="hidden" asp-for="Id" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="card shadow-lg border-0 rounded-3">
+                    <div class="card-header bg-primary text-white py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">
+                                <i class="fa fa-edit me-2"></i>Edit Product
+                            </h4>
+                            <span class="badge bg-light text-primary">ID: @Model.Id</span>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-8 border-end">
+                                
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Name" class="form-control" placeholder="Product Name" />
+                                    <label asp-for="Name"><i class="fa fa-tag me-1"></i> Product Name</label>
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <textarea asp-for="Description" class="form-control" placeholder="Description" style="height: 120px"></textarea>
+                                    <label asp-for="Description"><i class="fa fa-align-left me-1"></i> Description</label>
+                                    <span asp-validation-for="Description" class="text-danger small"></span>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label asp-for="CategoryId" class="form-label text-muted small fw-bold">Category</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-list"></i></span>
+                                            <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId"></select>
+                                        </div>
+                                        <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                                    </div>
+                                    
+                                    <div class="col-md-3">
+                                        <label asp-for="Price" class="form-label text-muted small fw-bold">Price</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input asp-for="Price" asp-format="{0:N2}" class="form-control" />
+                                        </div>
+                                        <span asp-validation-for="Price" class="text-danger small"></span>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label asp-for="Stock" class="form-label text-muted small fw-bold">Stock</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-cubes"></i></span>
+                                            <input asp-for="Stock" class="form-control" />
+                                        </div>
+                                        <span asp-validation-for="Stock" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 d-flex flex-column align-items-center justify-content-start pt-2">
+                                <h6 class="text-muted text-uppercase small fw-bold mb-3">Image Preview</h6>
+                                
+                                <div class="card p-2 shadow-sm border mb-3 w-100">
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <img src="@Model.ImageUrl" class="img-fluid rounded" style="max-height: 190px; object-fit: contain;" id="imagePreview" />
+                                    </div>
+                                </div>
+
+                                <div class="w-100">
+                                    <label asp-for="ImageUrl" class="form-label text-muted small">Image URL</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa fa-link"></i></span>
+                                        <input asp-for="ImageUrl" class="form-control form-control-sm" placeholder="http://..." />
+                                    </div>
+                                    <span asp-validation-for="ImageUrl" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-light p-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a asp-action="Index" class="btn btn-outline-secondary px-4">
+                                <i class="fa fa-arrow-left me-1"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-success px-5 shadow-sm fw-bold">
+                                <i class="fa fa-save me-1"></i> Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

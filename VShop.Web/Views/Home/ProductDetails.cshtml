@@ -1,0 +1,94 @@
+﻿@model VShop.Web.Models.ProductViewModel
+
+<div class="container mt-5 mb-5">
+    <div class="card shadow border-0 rounded-3">
+        <div class="card-body p-4">
+            <form method="post">
+                <input asp-for="Id" hidden />
+
+                <div class="mb-3">
+                    <a asp-action="Index" class="text-decoration-none text-muted small">
+                        <i class="fa fa-arrow-left"></i> Voltar para a lista
+                    </a>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 text-center mb-4 mb-md-0">
+                        <div class="bg-light rounded-3 p-3 d-flex align-items-center justify-content-center h-100">
+                            <img src="@Model.ImageUrl" class="img-fluid rounded shadow-sm" 
+                                 style="max-height: 400px; object-fit: contain; mix-blend-mode: multiply;" 
+                                 alt="@Model.Name">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <span class="badge bg-secondary mb-2">@Model.CategoryName</span>
+                        
+                        <h2 class="fw-bold text-dark mb-2">@Model.Name</h2>
+                        
+                        <div class="mb-3 text-warning small">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-half-o"></i>
+                            <span class="text-muted ms-2">(4.5)</span>
+                        </div>
+
+                        <div class="mb-4">
+                            <h3 class="text-primary display-6 fw-bold">
+                                @Model.Price.ToString("C")
+                            </h3>
+                            <div class="mt-2">
+                                @if (Model.Stock > 0)
+                                {
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-pill">
+                                        <i class="fa fa-check-circle me-1"></i> Em Estoque (@Model.Stock un.)
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-2 rounded-pill">
+                                        <i class="fa fa-times-circle me-1"></i> Esgotado
+                                    </span>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6 class="text-uppercase text-muted fw-bold small">Descrição</h6>
+                            <p class="text-secondary" style="line-height: 1.6;">
+                                @Model.Description
+                            </p>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="row align-items-end g-3">
+                            <div class="col-4 col-sm-3">
+                                <label class="form-label fw-bold small text-muted">Qtd.</label>
+                                <input asp-for="Quantity" type="number" min="1" max="@Model.Stock" class="form-control text-center fw-bold" value="1" />
+                                <span asp-validation-for="Quantity" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-8 col-sm-9">
+                                @if (Model.Stock > 0)
+                                {
+                                    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold shadow-sm transition-hover">
+                                        <i class="fa fa-shopping-cart me-2"></i> Adicionar ao Carrinho
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button disabled class="btn btn-secondary w-100 py-2 fw-bold">
+                                        Indisponível
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

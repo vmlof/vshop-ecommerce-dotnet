@@ -1,0 +1,85 @@
+﻿@model VShop.Web.Models.ProductViewModel
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            
+            <div class="card shadow-lg border-0 rounded-3">
+                
+                <div class="card-header bg-success text-white py-3 rounded-top-3">
+                    <h4 class="mb-0 fw-bold">
+                        <i class="fa fa-plus-circle me-2"></i> Create New Product
+                    </h4>
+                </div>
+
+                <div class="card-body p-4">
+                    <form asp-action="CreateProduct">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Name" class="form-control" placeholder="Product Name" />
+                            <label asp-for="Name"><i class="fa fa-tag me-2 text-muted"></i>Product Name</label>
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CategoryId" class="form-label text-muted small fw-bold ms-1">Category</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fa fa-list"></i></span>
+                                <select asp-for="CategoryId" class="form-select" asp-items="@ViewBag.CategoryId">
+                                    <option disabled selected>-- Select a Category --</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <textarea asp-for="Description" class="form-control" placeholder="Description" style="height: 100px"></textarea>
+                            <label asp-for="Description"><i class="fa fa-align-left me-2 text-muted"></i>Description</label>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ImageUrl" class="form-label text-muted small fw-bold ms-1">Image URL</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fa fa-image"></i></span>
+                                <input asp-for="ImageUrl" class="form-control" placeholder="http://example.com/image.jpg" />
+                            </div>
+                            <span asp-validation-for="ImageUrl" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="Price" class="form-label text-muted small fw-bold ms-1">Price</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light fw-bold">$</span>
+                                    <input asp-for="Price" asp-format="{0:N2}" class="form-control" placeholder="0.00" />
+                                </div>
+                                <span asp-validation-for="Price" class="text-danger small"></span>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label asp-for="Stock" class="form-label text-muted small fw-bold ms-1">Initial Stock</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fa fa-cubes"></i></span>
+                                    <input asp-for="Stock" class="form-control" placeholder="0" />
+                                </div>
+                                <span asp-validation-for="Stock" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Index" class="btn btn-outline-secondary px-4 fw-bold">
+                                <i class="fa fa-arrow-left me-1"></i> Back
+                            </a>
+                            <button type="submit" class="btn btn-success px-5 fw-bold shadow-sm">
+                                Create Product <i class="fa fa-check ms-1"></i>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

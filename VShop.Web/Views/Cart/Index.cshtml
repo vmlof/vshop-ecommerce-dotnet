@@ -1,0 +1,135 @@
+﻿@model CartViewModel
+
+@if (Model.CartHeader is not null && Model.CartItems.Count() > 0)
+{
+    <form method="post">
+        <input asp-for="CartHeader.UserId" hidden />
+        <input asp-for="CartHeader.Id" hidden />
+        
+        @for (int i = 0; i < Model.CartItems.Count(); i++)
+        {
+            <input asp-for="CartItems.ElementAt(i).Id" hidden />
+        }
+
+        <div class="container mt-5 mb-5">
+            <div class="card shadow border-0 rounded-3">
+                <div class="card-header bg-dark text-white p-3 d-flex justify-content-between align-items-center rounded-top-3">
+                    <h5 class="mb-0">
+                        <i class="fa fa-shopping-cart me-2"></i> Seu Carrinho
+                    </h5>
+                    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-light btn-sm text-uppercase fw-bold">
+                        Continuar Comprando
+                    </a>
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="d-none d-lg-block mb-3">
+                        <div class="row text-uppercase text-muted small fw-bold">
+                            <div class="col-lg-2">Imagem</div>
+                            <div class="col-lg-5">Detalhes do Produto</div>
+                            <div class="col-lg-2 text-center">Preço</div>
+                            <div class="col-lg-2 text-center">Qtd.</div>
+                            <div class="col-lg-1 text-center">Remover</div>
+                        </div>
+                    </div>
+                    
+                    <hr class="d-none d-lg-block my-0 mb-4" />
+
+                    @foreach (var item in Model.CartItems)
+                    {
+                        <div class="row align-items-center mb-4 pb-4 border-bottom">
+                            <div class="col-4 col-lg-2">
+                                <img src="@item.Product.ImageUrl" class="img-fluid rounded shadow-sm" style="object-fit: cover; height: 100px; width: 100%;" />
+                            </div>
+
+                            <div class="col-8 col-lg-5">
+                                <h5 class="fw-bold text-dark mb-1">@item.Product.Name</h5>
+                                <div class="text-muted small text-truncate" style="max-width: 100%;">
+                                    @Html.Raw(item.Product.Description)
+                                </div>
+                            </div>
+
+                            <div class="col-4 col-lg-2 text-center mt-3 mt-lg-0">
+                                <span class="d-lg-none text-muted small">Preço: </span>
+                                <span class="fw-bold text-dark fs-5">
+                                    @string.Format("{0:c}", item.Product.Price)
+                                </span>
+                            </div>
+
+                            <div class="col-4 col-lg-2 text-center mt-3 mt-lg-0">
+                                <span class="d-lg-none text-muted small">Qtd: </span>
+                                <span class="badge bg-light text-dark border fs-6">
+                                    @item.Quantity
+                                </span>
+                            </div>
+
+                            <div class="col-4 col-lg-1 text-center mt-3 mt-lg-0">
+                                <a asp-action="RemoveItem" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger shadow-sm">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="row mt-4">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label class="form-label text-muted small fw-bold text-uppercase">Cupom de Desconto</label>
+                            <div class="input-group">
+                                @if (string.IsNullOrEmpty(Model.CartHeader.CouponCode))
+                                {
+                                    <input asp-for="CartHeader.CouponCode" class="form-control" placeholder="Código do cupom" />
+                                    <button type="submit" asp-action="ApplyCoupon" class="btn btn-success">
+                                        Aplicar
+                                    </button>
+                                }
+                                else
+                                {
+                                    <input asp-for="CartHeader.CouponCode" class="form-control" disabled />
+                                    <button type="submit" asp-action="DeleteCoupon" class="btn btn-danger">
+                                        Remover
+                                    </button>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 text-md-end">
+                            <div class="bg-light p-3 rounded">
+                                <span class="text-muted small text-uppercase fw-bold">Total do Pedido</span>
+                                <h2 class="text-primary fw-bold mb-0">
+                                    @string.Format("{0:c}", Model.CartHeader.TotalAmount)
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-white border-top-0 p-4">
+                    <div class="row">
+                        <div class="col-md-4 offset-md-8">
+                            <a asp-action="Checkout" class="btn btn-primary btn-lg w-100 shadow fw-bold text-uppercase">
+                                Finalizar Compra
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}
+else
+{
+    <div class="container mt-5 text-center">
+        <div class="card shadow-sm border-0 p-5">
+            <div class="mb-4">
+                <i class="fa fa-shopping-basket fa-5x text-muted opacity-25"></i>
+            </div>
+            <h3 class="fw-bold text-dark">Seu carrinho está vazio</h3>
+            <p class="text-muted mb-4">Parece que você ainda não adicionou nenhum item.</p>
+            <div>
+                <a asp-action="Index" asp-controller="Home" class="btn btn-primary px-5 py-2 fw-bold">
+                    Começar a Comprar
+                </a>
+            </div>
+        </div>
+    </div>
+}

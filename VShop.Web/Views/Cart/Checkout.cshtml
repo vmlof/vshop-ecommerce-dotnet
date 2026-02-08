@@ -1,0 +1,142 @@
+﻿@model CartViewModel
+
+@if (Model is not null && Model.CartItems.Count() > 0)
+{
+    <form method="post">
+        <input asp-for="CartHeader.UserId" hidden />
+        <input asp-for="CartHeader.Id" hidden />
+        <input asp-for="CartHeader.CouponCode" hidden />
+        <input asp-for="CartHeader.Discount" hidden />
+        <input asp-for="CartHeader.TotalAmount" hidden />
+        
+        @for (int i = 0; i < Model.CartItems.Count(); i++)
+        {
+            <input asp-for="CartItems.ElementAt(i).Id" hidden />
+        }
+
+        <div class="container my-5">
+            <div class="row g-5">
+                
+                <div class="col-md-7 col-lg-8">
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-white border-bottom-0 py-3">
+                            <h4 class="mb-0 text-primary"><i class="fa fa-user-circle me-2"></i>Informações de Cobrança</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <label class="form-label">Primeiro Nome</label>
+                                    <input asp-for="CartHeader.FirstName" class="form-control" placeholder="" required />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label">Sobrenome</label>
+                                    <input asp-for="CartHeader.LastName" class="form-control" placeholder="" required />
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">E-mail</label>
+                                    <div class="input-group has-validation">
+                                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                        <input asp-for="CartHeader.Email" type="email" class="form-control" placeholder="voce@exemplo.com" required />
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">Telefone</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                                        <input asp-for="CartHeader.Telephone" class="form-control" placeholder="(00) 00000-0000" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom-0 py-3">
+                            <h4 class="mb-0 text-primary"><i class="fa fa-credit-card me-2"></i>Pagamento</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nome no Cartão</label>
+                                    <input asp-for="CartHeader.NameOnCard" class="form-control" required />
+                                    <small class="text-muted">Nome completo como impresso no cartão</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Número do Cartão</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                        <input asp-for="CartHeader.CardNumber" class="form-control" placeholder="0000 0000 0000 0000" required />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Validade</label>
+                                    <input asp-for="CartHeader.ExpireMonthYear" class="form-control" placeholder="MM/YY" required />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">CVV</label>
+                                    <input asp-for="CartHeader.Cvv" class="form-control" placeholder="123" required />
+                                </div>
+                                <div class="col-md-4 d-flex align-items-end">
+                                    <span class="text-muted small"><i class="fa fa-info-circle"></i> 3 dígitos no verso</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5 col-lg-4">
+                    <div class="card shadow border-0 bg-light position-sticky" style="top: 2rem;">
+                        <div class="card-body p-4">
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-primary">Seu Pedido</span>
+                                <span class="badge bg-primary rounded-pill">@Model.CartItems.Count()</span>
+                            </h4>
+                            
+                            <ul class="list-group mb-3 shadow-sm">
+                                @foreach (var item in Model.CartItems)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                                        <div>
+                                            <h6 class="my-0">@item.Product.Name</h6>
+                                            <small class="text-muted">Qtd: @item.Quantity</small>
+                                        </div>
+                                        <span class="text-muted">@string.Format("{0:c}", item.Product.Price)</span>
+                                    </li>
+                                }
+
+                                @if (Model.CartHeader.Discount > 0)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between bg-light">
+                                        <div class="text-success">
+                                            <h6 class="my-0">Cupom Aplicado</h6>
+                                            <small>@Model.CartHeader.CouponCode</small>
+                                        </div>
+                                        <span class="text-success">-@string.Format("{0:c}", Model.CartHeader.Discount)</span>
+                                    </li>
+                                }
+                                
+                                <li class="list-group-item d-flex justify-content-between fw-bold fs-5 text-dark">
+                                    <span>Total (BRL)</span>
+                                    <span>@string.Format("{0:c}", Model.CartHeader.TotalAmount)</span>
+                                </li>
+                            </ul>
+
+                            <button type="submit" class="btn btn-success btn-lg w-100 fw-bold shadow">
+                                Finalizar Pedido <i class="fa fa-check ms-2"></i>
+                            </button>
+                            
+                            <div class="text-center mt-3">
+                                <a asp-action="Index" asp-controller="Home" class="text-decoration-none text-muted small">
+                                    <i class="fa fa-arrow-left"></i> Voltar e Comprar Mais
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}
